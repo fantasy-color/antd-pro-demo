@@ -22,10 +22,10 @@ export async function getInitialState(): Promise<{
 }> {
   const fetchUserInfo = async () => {
     try {
-      const msg = await queryCurrentUser({
+      const response = await queryCurrentUser({
         skipErrorHandler: true,
       });
-      return msg.data;
+      return response;
     } catch (error) {
       history.push(loginPath);
     }
@@ -131,6 +131,9 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
  * 它基于 axios 和 ahooks 的 useRequest 提供了一套统一的网络请求和错误处理方案。
  * @doc https://umijs.org/docs/max/request#配置
  */
+const DOMAIN = isDev ? 'https://pmtest.qiuzhi99.com' : 'https://pmtest.qiuzhi99.com';
+
 export const request = {
+  baseURL: `${DOMAIN}/api`,
   ...errorConfig,
 };
