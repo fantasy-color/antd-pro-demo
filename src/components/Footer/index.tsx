@@ -11,15 +11,21 @@ const Footer: React.FC = () => {
       copyright="2024 奇幻色彩"
       links={[
         {
+          key: 'ProComponents',
+          title: 'ProComponents',
+          href: 'https://pro-components.antdigital.dev/',
+          blankTarget: true,
+        },
+        {
           key: 'Ant Design',
           title: <AntDesignOutlined />,
-          href: 'https://ant.design',
+          href: 'https://ant-design.antgroup.com/index-cn',
           blankTarget: true,
         },
         {
           key: 'github',
           title: <GithubOutlined />,
-          href: 'https://github.com/fantasy-color/antd-pro-demo',
+          href: 'https://github.com/fantasy-color/pro-demo',
           blankTarget: true,
         },
       ]}

@@ -18,23 +18,24 @@ declare namespace API {
     pageSize?: number;
   };
 
-  type RuleListItem = {
-    key?: number;
-    disabled?: boolean;
-    href?: string;
-    avatar?: string;
+  type BasicListItem = {
+    id?: number;
     name?: string;
-    owner?: string;
-    desc?: string;
-    callNo?: number;
-    status?: number;
-    updatedAt?: string;
     createdAt?: string;
-    progress?: number;
+    updatedAt?: string;
   };
 
-  type RuleList = {
-    data?: RuleListItem[];
+  interface ListItem extends BasicListItem {
+    username?: string;
+    gender?: string;
+    isAdmin?: boolean;
+    email?: string;
+    status?: string;
+    roles?: any[];
+  }
+
+  type DataList = {
+    data?: ListItem[];
     /** 列表的内容总数 */
     total?: number;
     success?: boolean;

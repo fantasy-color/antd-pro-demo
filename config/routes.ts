@@ -46,10 +46,16 @@ export default [
     ],
   },
   {
-    name: 'list.table-list',
-    icon: 'table',
-    path: '/list',
-    component: './TableList',
+    path: '/auth',
+    name: 'auth',
+    icon: 'crown',
+    routes: [
+      {
+        path: '/auth/users',
+        name: 'users',
+        component: './auth/users',
+      },
+    ],
   },
   {
     path: '/',

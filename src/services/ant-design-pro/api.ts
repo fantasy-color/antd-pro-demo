@@ -38,8 +38,9 @@ export async function getNotices(options?: { [key: string]: any }) {
   });
 }
 
-/** 获取规则列表 GET /api/rule */
-export async function rule(
+/** 获取列表数据 GET */
+export async function queryList(
+  url: string,
   params: {
     // query
     /** 当前的页码 */
@@ -47,20 +48,22 @@ export async function rule(
     /** 页面的容量 */
     pageSize?: number;
   },
-  options?: { [key: string]: any },
+  sort?: { [key: string]: any },
+  filter?: { [key: string]: any },
 ) {
-  return request<API.RuleList>('/api/rule', {
+  return request<API.DataList>(url, {
     method: 'GET',
     params: {
       ...params,
+      sorter: sort,
+      ...filter,
     },
-    ...(options || {}),
   });
 }
 
 /** 更新规则 PUT /api/rule */
 export async function updateRule(options?: { [key: string]: any }) {
-  return request<API.RuleListItem>('/api/rule', {
+  return request<API.ListItem>('/api/rule', {
     method: 'POST',
     data: {
       method: 'update',
@@ -71,7 +74,7 @@ export async function updateRule(options?: { [key: string]: any }) {
 
 /** 新建规则 POST /api/rule */
 export async function addRule(options?: { [key: string]: any }) {
-  return request<API.RuleListItem>('/api/rule', {
+  return request<API.ListItem>('/api/rule', {
     method: 'POST',
     data: {
       method: 'post',
