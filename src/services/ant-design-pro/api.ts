@@ -41,7 +41,7 @@ export async function getNotices(options?: { [key: string]: any }) {
 /** 获取列表数据 GET */
 export async function queryList(
   url: string,
-  params: {
+  params?: {
     // query
     /** 当前的页码 */
     current?: number;

@@ -11,10 +11,11 @@ import {
   ProTable,
 } from '@ant-design/pro-components';
 import { FormattedMessage, useIntl } from '@umijs/max';
-import { Button, Drawer, Tag, message } from 'antd';
+import { Button, Drawer, Select, Tag, TreeSelect, message } from 'antd';
 import React, { useRef, useState } from 'react';
 import type { FormValueType } from './components/UpdateForm';
 import UpdateForm from './components/UpdateForm';
+import useQueryList from '@/hooks/useQueryList';
 
 /**
  * @en-US Add node
@@ -97,6 +98,9 @@ const TableList: React.FC = () => {
   const [currentRow, setCurrentRow] = useState<API.ListItem>();
   const [selectedRowsState, setSelectedRows] = useState<API.ListItem[]>([]);
 
+  const { items: roles } = useQueryList('/roles');
+  const { items: departments } = useQueryList('/departments');
+
   /**
    * @en-US International configuration
    * @zh-CN 国际化配置
@@ -131,6 +135,10 @@ const TableList: React.FC = () => {
       title: '性别',
       dataIndex: 'gender',
       width: 100,
+      valueEnum: {
+        男: { text: '男' },
+        女: { text: '女' },
+      },
     },
     {
       title: '是否超级管理员',
@@ -139,12 +147,29 @@ const TableList: React.FC = () => {
       render: (val) => {
         return val ? <Tag color="success">是</Tag> : <Tag color="default">否</Tag>;
       },
+      valueEnum: {
+        true: { text: '是' },
+        false: { text: '否' },
+      },
     },
     {
       title: '部门',
       dataIndex: 'department',
       width: 100,
       renderText: (val: { depName: 'string' }) => val?.depName,
+      renderFormItem: () => {
+        return (
+          <TreeSelect
+            showSearch
+            style={{ width: '100%' }}
+            dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
+            placeholder="请选择"
+            allowClear
+            treeDefaultExpandAll
+            treeData={departments}
+          />
+        );
+      },
     },
     {
       title: '角色',
@@ -152,6 +177,23 @@ const TableList: React.FC = () => {
       width: 250,
       renderText: (val: { name: 'string' }[]) => val?.map((item) => item.name).join('，'),
       ellipsis: true,
+      renderFormItem: () => {
+        return (
+          <Select
+            showSearch
+            placeholder="请选择"
+            optionFilterProp="children"
+            filterOption={(input: string, option?: { label: string; value: string }) =>
+              (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
+            }
+            allowClear
+            options={roles?.map((role) => ({
+              label: role.name || '',
+              value: String(role.id) || '',
+            }))}
+          />
+        );
+      },
     },
     {
       title: '在职状态',
@@ -160,12 +202,17 @@ const TableList: React.FC = () => {
       render: (val) => {
         return val === '在职' ? <Tag color="success">是</Tag> : <Tag color="default">否</Tag>;
       },
+      valueEnum: {
+        在职: { text: '在职' },
+        离职: { text: '离职' },
+      },
     },
     {
       title: '创建时间',
       dataIndex: 'createdAt',
-      valueType: 'dateTime',
-      width: 150,
+      valueType: 'date',
+      width: 100,
+      hideInSearch: true,
     },
     {
       title: '操作',
