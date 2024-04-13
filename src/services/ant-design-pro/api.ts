@@ -73,8 +73,8 @@ export async function updateRule(options?: { [key: string]: any }) {
 }
 
 /** 新建员工 */
-export async function addRule(options?: { [key: string]: any }) {
-  return request<API.ListItem>('/users', {
+export async function addItem(url: string, options?: { [key: string]: any }) {
+  return request<API.ListItem>(url, {
     method: 'POST',
     data: {
       ...(options || {}),

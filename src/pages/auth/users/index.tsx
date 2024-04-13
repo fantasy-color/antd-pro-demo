@@ -1,4 +1,4 @@
-import { addRule, queryList, removeRule, updateRule } from '@/services/ant-design-pro/api';
+import { addItem, queryList, removeRule, updateRule } from '@/services/ant-design-pro/api';
 import { PlusOutlined } from '@ant-design/icons';
 import type { ActionType, ProColumns, ProDescriptionsItemProps } from '@ant-design/pro-components';
 import {
@@ -23,13 +23,13 @@ import Create from './components/Create';
 const handleAdd = async (fields: API.ListItem) => {
   const hide = message.loading('正在添加');
   try {
-    await addRule({ ...fields });
+    await addItem('/users', { ...fields });
     hide();
-    message.success('Added successfully');
+    message.success('创建成功');
     return true;
   } catch (error) {
     hide();
-    message.error('Adding failed, please try again!');
+    message.error('创建失败，请稍后重试');
     return false;
   }
 };
