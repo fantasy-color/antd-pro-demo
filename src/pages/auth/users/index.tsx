@@ -1,23 +1,18 @@
 import { addItem, queryList, removeRule, updateItem } from '@/services/ant-design-pro/api';
 import { PlusOutlined } from '@ant-design/icons';
 import type { ActionType, ProColumns, ProDescriptionsItemProps } from '@ant-design/pro-components';
-import {
-  FooterToolbar,
-  PageContainer,
-  ProDescriptions,
-  ProTable,
-} from '@ant-design/pro-components';
+import { FooterToolbar, PageContainer, ProTable } from '@ant-design/pro-components';
 import { FormattedMessage } from '@umijs/max';
-import { Button, Drawer, Select, Tag, TreeSelect, message } from 'antd';
+import { Button, Select, Tag, TreeSelect, message } from 'antd';
 import React, { useRef, useState } from 'react';
 import type { FormValueType } from './components/UpdateForm';
 import UpdateForm from './components/UpdateForm';
 import useQueryList from '@/hooks/useQueryList';
 import CreateForm from './components/CreateForm';
+import UserDetail from './components/UserDetail';
 
 /**
- * @en-US Add node
- * @zh-CN 添加节点
+ * @description 新建用户
  * @param fields
  */
 const handleAdd = async (fields: API.ListItem) => {
@@ -35,9 +30,7 @@ const handleAdd = async (fields: API.ListItem) => {
 };
 
 /**
- * @en-US Update node
- * @zh-CN 更新节点
- *
+ * @description 编辑用户
  * @param fields
  */
 const handleUpdate = async (fields: FormValueType) => {
@@ -332,30 +325,15 @@ const TableList: React.FC = () => {
         updateModalOpen={updateModalOpen}
         values={currentRow || {}}
       />
-
-      <Drawer
-        width={600}
+      <UserDetail
+        currentRow={currentRow as API.ListItem}
+        columns={columns as ProDescriptionsItemProps<API.ListItem>[]}
         open={showDetail}
         onClose={() => {
           setCurrentRow(undefined);
           setShowDetail(false);
         }}
-        closable={false}
-      >
-        {currentRow?.name && (
-          <ProDescriptions<API.ListItem>
-            column={2}
-            title={currentRow?.name}
-            request={async () => ({
-              data: currentRow || {},
-            })}
-            params={{
-              id: currentRow?.name,
-            }}
-            columns={columns as ProDescriptionsItemProps<API.ListItem>[]}
-          />
-        )}
-      </Drawer>
+      />
     </PageContainer>
   );
 };
