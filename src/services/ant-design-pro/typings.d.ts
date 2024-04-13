@@ -18,20 +18,17 @@ declare namespace API {
     pageSize?: number;
   };
 
-  type BasicListItem = {
+  type ListItem = {
     id?: number;
     name?: string;
     createdAt?: string;
     updatedAt?: string;
   };
 
-  interface ListItem extends BasicListItem {
+  interface UserListItem extends ListItem {
     username?: string;
-    gender?: string;
     isAdmin?: boolean;
-    email?: string;
     status?: string;
-    roles?: any[];
   }
 
   type DataList = {

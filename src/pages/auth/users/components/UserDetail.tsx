@@ -3,8 +3,8 @@ import { Drawer } from 'antd';
 import React from 'react';
 
 interface Props {
-  currentRow: API.ListItem;
-  columns: ProDescriptionsItemProps<API.ListItem>[];
+  currentRow: API.UserListItem;
+  columns: ProDescriptionsItemProps<API.UserListItem>[];
   open: boolean;
   onClose: (e: React.MouseEvent | React.KeyboardEvent) => void;
 }
@@ -16,7 +16,7 @@ const UserDetail: React.FC<Props> = (props) => {
     <>
       <Drawer width={600} open={open} onClose={onClose} closable={false}>
         {currentRow?.username && (
-          <ProDescriptions<API.ListItem>
+          <ProDescriptions<API.UserListItem>
             column={2}
             title={currentRow?.username}
             request={async () => ({
@@ -25,7 +25,7 @@ const UserDetail: React.FC<Props> = (props) => {
             params={{
               id: currentRow?.username,
             }}
-            columns={columns as ProDescriptionsItemProps<API.ListItem>[]}
+            columns={columns as ProDescriptionsItemProps<API.UserListItem>[]}
           />
         )}
       </Drawer>

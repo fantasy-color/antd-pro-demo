@@ -15,7 +15,7 @@ import UserDetail from './components/UserDetail';
  * @description 新建用户
  * @param fields
  */
-const handleAdd = async (fields: API.ListItem) => {
+const handleAdd = async (fields: API.UserListItem) => {
   const hide = message.loading('正在添加');
   try {
     await addItem('/users', { ...fields });
@@ -84,13 +84,13 @@ const TableList: React.FC = () => {
   const [showDetail, setShowDetail] = useState<boolean>(false);
 
   const actionRef = useRef<ActionType>();
-  const [currentRow, setCurrentRow] = useState<API.ListItem>();
-  const [selectedRowsState, setSelectedRows] = useState<API.ListItem[]>([]);
+  const [currentRow, setCurrentRow] = useState<API.UserListItem>();
+  const [selectedRowsState, setSelectedRows] = useState<API.UserListItem[]>([]);
 
   const { items: roles } = useQueryList('/roles');
   const { items: departments } = useQueryList('/departments');
 
-  const columns: ProColumns<API.ListItem>[] = [
+  const columns: ProColumns<API.UserListItem>[] = [
     {
       title: '姓名',
       dataIndex: 'username',
@@ -127,8 +127,8 @@ const TableList: React.FC = () => {
       title: '是否超级管理员',
       dataIndex: 'isAdmin',
       width: 200,
-      render: (val) => {
-        return val ? <Tag color="success">是</Tag> : <Tag color="default">否</Tag>;
+      render: (_, entity) => {
+        return entity.isAdmin ? <Tag color="success">是</Tag> : <Tag color="default">否</Tag>;
       },
       valueEnum: {
         true: { text: '是' },
@@ -182,8 +182,12 @@ const TableList: React.FC = () => {
       title: '在职状态',
       dataIndex: 'status',
       width: 100,
-      render: (val) => {
-        return val === '在职' ? <Tag color="success">是</Tag> : <Tag color="default">否</Tag>;
+      render: (_, entity) => {
+        return entity.status === '在职' ? (
+          <Tag color="success">是</Tag>
+        ) : (
+          <Tag color="default">否</Tag>
+        );
       },
       valueEnum: {
         在职: { text: '在职' },
@@ -237,7 +241,7 @@ const TableList: React.FC = () => {
 
   return (
     <PageContainer>
-      <ProTable<API.ListItem, API.PageParams>
+      <ProTable<API.UserListItem, API.PageParams>
         headerTitle="员工管理"
         actionRef={actionRef}
         rowKey="id"
@@ -300,7 +304,7 @@ const TableList: React.FC = () => {
         open={createModalOpen}
         onOpenChange={handleModalOpen}
         onFinish={async (value) => {
-          const success = await handleAdd(value as API.ListItem);
+          const success = await handleAdd(value as API.UserListItem);
           if (success) {
             handleModalOpen(false);
             if (actionRef.current) {
@@ -325,8 +329,8 @@ const TableList: React.FC = () => {
         values={currentRow || {}}
       />
       <UserDetail
-        currentRow={currentRow as API.ListItem}
-        columns={columns as ProDescriptionsItemProps<API.ListItem>[]}
+        currentRow={currentRow as API.UserListItem}
+        columns={columns as ProDescriptionsItemProps<API.UserListItem>[]}
         open={showDetail}
         onClose={() => {
           setCurrentRow(undefined);
