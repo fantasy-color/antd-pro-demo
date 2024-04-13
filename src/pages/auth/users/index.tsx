@@ -1,4 +1,4 @@
-import { addItem, queryList, removeRule, updateRule } from '@/services/ant-design-pro/api';
+import { addItem, queryList, removeRule, updateItem } from '@/services/ant-design-pro/api';
 import { PlusOutlined } from '@ant-design/icons';
 import type { ActionType, ProColumns, ProDescriptionsItemProps } from '@ant-design/pro-components';
 import {
@@ -41,16 +41,16 @@ const handleAdd = async (fields: API.ListItem) => {
  * @param fields
  */
 const handleUpdate = async (fields: FormValueType) => {
-  const hide = message.loading('Configuring');
+  const hide = message.loading('正在更新');
   try {
-    await updateRule(fields);
+    await updateItem(`/users/${fields.id}`, fields);
     hide();
 
-    message.success('Configuration is successful');
+    message.success('更新成功');
     return true;
   } catch (error) {
     hide();
-    message.error('Configuration failed, please try again!');
+    message.error('更新失败，请稍后重试');
     return false;
   }
 };
@@ -328,12 +328,7 @@ const TableList: React.FC = () => {
             }
           }
         }}
-        onCancel={() => {
-          handleUpdateModalOpen(false);
-          if (!showDetail) {
-            setCurrentRow(undefined);
-          }
-        }}
+        onCancel={handleUpdateModalOpen}
         updateModalOpen={updateModalOpen}
         values={currentRow || {}}
       />

@@ -61,18 +61,17 @@ export async function queryList(
   });
 }
 
-/** 更新规则 PUT /api/rule */
-export async function updateRule(options?: { [key: string]: any }) {
-  return request<API.ListItem>('/api/rule', {
-    method: 'POST',
+/** 修改用户 */
+export async function updateItem(url: string, options?: { [key: string]: any }) {
+  return request<API.ListItem>(url, {
+    method: 'PUT',
     data: {
-      method: 'update',
       ...(options || {}),
     },
   });
 }
 
-/** 新建员工 */
+/** 新建用户 */
 export async function addItem(url: string, options?: { [key: string]: any }) {
   return request<API.ListItem>(url, {
     method: 'POST',
