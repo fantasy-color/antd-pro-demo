@@ -22,9 +22,9 @@ const handleAdd = async (fields: API.ListItem) => {
     hide();
     message.success('创建成功');
     return true;
-  } catch (error) {
+  } catch (error: any) {
     hide();
-    message.error('创建失败，请稍后重试');
+    message.error(error?.response?.data?.message || '创建失败，请稍后重试');
     return false;
   }
 };
@@ -41,9 +41,9 @@ const handleUpdate = async (fields: FormValueType) => {
 
     message.success('更新成功');
     return true;
-  } catch (error) {
+  } catch (error: any) {
     hide();
-    message.error('更新失败，请稍后重试');
+    message.error(error?.response?.data?.message || '更新失败，请稍后重试');
     return false;
   }
 };
@@ -62,9 +62,9 @@ const handleRemove = async (ids: number[]) => {
     hide();
     message.success('删除成功');
     return true;
-  } catch (error) {
+  } catch (error: any) {
     hide();
-    message.error('删除失败，请稍后重试');
+    message.error(error?.response?.data?.message || '删除失败，请稍后重试');
     return false;
   }
 };
