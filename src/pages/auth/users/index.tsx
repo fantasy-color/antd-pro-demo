@@ -13,7 +13,7 @@ import React, { useRef, useState } from 'react';
 import type { FormValueType } from './components/UpdateForm';
 import UpdateForm from './components/UpdateForm';
 import useQueryList from '@/hooks/useQueryList';
-import Create from './components/Create';
+import CreateForm from './components/CreateForm';
 
 /**
  * @en-US Add node
@@ -304,7 +304,7 @@ const TableList: React.FC = () => {
           </Button>
         </FooterToolbar>
       )}
-      <Create
+      <CreateForm
         open={createModalOpen}
         onOpenChange={handleModalOpen}
         onFinish={async (value) => {
