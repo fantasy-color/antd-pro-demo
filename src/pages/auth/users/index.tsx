@@ -60,11 +60,11 @@ const handleRemove = async (ids: number[]) => {
       ids,
     });
     hide();
-    message.success('Deleted successfully and will refresh soon');
+    message.success('删除成功');
     return true;
   } catch (error) {
     hide();
-    message.error('Delete failed, please try again');
+    message.error('删除失败，请稍后重试');
     return false;
   }
 };
@@ -272,35 +272,27 @@ const TableList: React.FC = () => {
               <FormattedMessage id="pages.searchTable.chosen" defaultMessage="Chosen" />{' '}
               <a style={{ fontWeight: 600 }}>{selectedRowsState.length}</a>{' '}
               <FormattedMessage id="pages.searchTable.item" defaultMessage="项" />
-              &nbsp;&nbsp;
-              <span>
-                <FormattedMessage
-                  id="pages.searchTable.totalServiceCalls"
-                  defaultMessage="Total number of service calls"
-                />{' '}
-                {/* {selectedRowsState.reduce((pre, item) => pre + item.callNo!, 0)}{' '} */}
-                <FormattedMessage id="pages.searchTable.tenThousand" defaultMessage="万" />
-              </span>
             </div>
           }
         >
           <Button
-            onClick={async () => {
-              // await handleRemove(selectedRowsState);
-              setSelectedRows([]);
-              actionRef.current?.reloadAndRest?.();
+            type="primary"
+            danger
+            onClick={() => {
+              return Modal.confirm({
+                title: '删除用户',
+                content: '确定删除该用户吗？',
+                okText: '确认',
+                cancelText: '取消',
+                onOk: async () => {
+                  await handleRemove(selectedRowsState?.map((item) => item.id!));
+                  setSelectedRows([]);
+                  actionRef.current?.reloadAndRest?.();
+                },
+              });
             }}
           >
-            <FormattedMessage
-              id="pages.searchTable.batchDeletion"
-              defaultMessage="Batch deletion"
-            />
-          </Button>
-          <Button type="primary">
-            <FormattedMessage
-              id="pages.searchTable.batchApproval"
-              defaultMessage="Batch approval"
-            />
+            批量删除
           </Button>
         </FooterToolbar>
       )}
