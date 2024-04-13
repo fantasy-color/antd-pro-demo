@@ -1,9 +1,9 @@
-import { addItem, queryList, removeRule, updateItem } from '@/services/ant-design-pro/api';
+import { addItem, queryList, removeItem, updateItem } from '@/services/ant-design-pro/api';
 import { PlusOutlined } from '@ant-design/icons';
 import type { ActionType, ProColumns, ProDescriptionsItemProps } from '@ant-design/pro-components';
 import { FooterToolbar, PageContainer, ProTable } from '@ant-design/pro-components';
 import { FormattedMessage } from '@umijs/max';
-import { Button, Select, Tag, TreeSelect, message } from 'antd';
+import { Button, Modal, Select, Tag, TreeSelect, message } from 'antd';
 import React, { useRef, useState } from 'react';
 import type { FormValueType } from './components/UpdateForm';
 import UpdateForm from './components/UpdateForm';
@@ -49,17 +49,15 @@ const handleUpdate = async (fields: FormValueType) => {
 };
 
 /**
- *  Delete node
- * @zh-CN 删除节点
- *
- * @param selectedRows
+ * @description 删除用户
+ * @param fields
  */
-const handleRemove = async (selectedRows: API.ListItem[]) => {
+const handleRemove = async (ids: number[]) => {
   const hide = message.loading('正在删除');
-  if (!selectedRows) return true;
+  if (!ids) return true;
   try {
-    await removeRule({
-      id: selectedRows.map((row) => row.id),
+    await removeItem('/users', {
+      ids,
     });
     hide();
     message.success('Deleted successfully and will refresh soon');
@@ -207,7 +205,7 @@ const TableList: React.FC = () => {
       width: 100,
       render: (_, record) => [
         <a
-          key="config"
+          key="update"
           onClick={() => {
             handleUpdateModalOpen(true);
             setCurrentRow(record);
@@ -216,10 +214,19 @@ const TableList: React.FC = () => {
           编辑
         </a>,
         <a
-          key="config"
+          key="delete"
           onClick={() => {
-            handleUpdateModalOpen(true);
-            setCurrentRow(record);
+            return Modal.confirm({
+              title: '删除用户',
+              content: '确定删除该用户吗？',
+              okText: '确认',
+              cancelText: '取消',
+              onOk: async () => {
+                await handleRemove([record.id!]);
+                setSelectedRows([]);
+                actionRef.current?.reloadAndRest?.();
+              },
+            });
           }}
         >
           删除
@@ -279,7 +286,7 @@ const TableList: React.FC = () => {
         >
           <Button
             onClick={async () => {
-              await handleRemove(selectedRowsState);
+              // await handleRemove(selectedRowsState);
               setSelectedRows([]);
               actionRef.current?.reloadAndRest?.();
             }}

@@ -61,16 +61,6 @@ export async function queryList(
   });
 }
 
-/** 修改用户 */
-export async function updateItem(url: string, options?: { [key: string]: any }) {
-  return request<API.ListItem>(url, {
-    method: 'PUT',
-    data: {
-      ...(options || {}),
-    },
-  });
-}
-
 /** 新建用户 */
 export async function addItem(url: string, options?: { [key: string]: any }) {
   return request<API.ListItem>(url, {
@@ -81,12 +71,21 @@ export async function addItem(url: string, options?: { [key: string]: any }) {
   });
 }
 
-/** 删除规则 DELETE /api/rule */
-export async function removeRule(options?: { [key: string]: any }) {
-  return request<Record<string, any>>('/api/rule', {
-    method: 'POST',
+/** 修改用户 */
+export async function updateItem(url: string, options?: { [key: string]: any }) {
+  return request<API.ListItem>(url, {
+    method: 'PUT',
     data: {
-      method: 'delete',
+      ...(options || {}),
+    },
+  });
+}
+
+/** 删除用户 */
+export async function removeItem(url: string, options?: { [key: string]: any }) {
+  return request<Record<string, any>>(url, {
+    method: 'DELETE',
+    data: {
       ...(options || {}),
     },
   });
