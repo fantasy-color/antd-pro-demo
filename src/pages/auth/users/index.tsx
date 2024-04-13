@@ -179,7 +179,7 @@ const TableList: React.FC = () => {
               (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
             }
             allowClear
-            options={roles?.map((role) => ({
+            options={roles?.map((role: { name: string; id: number }) => ({
               label: role.name || '',
               value: String(role.id) || '',
             }))}

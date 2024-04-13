@@ -2,15 +2,15 @@ import { useState, useEffect } from 'react';
 import { queryList } from '../services/ant-design-pro/api';
 
 const useQueryList = (url: string) => {
-  const [items, setItems] = useState<API.ListItem[] | undefined>([]);
+  const [items, setItems] = useState([]);
 
   const query = async () => {
-    const { data } = await queryList(url, { pageSize: 10000 });
-    setItems(data);
+    const res = (await queryList(url, { pageSize: 10000 })) as any;
+    setItems(res.data);
   };
 
   useEffect(() => {
-    query();
+    query().catch(console.error);
   }, []);
 
   return { items, setItems };

@@ -2,6 +2,7 @@ import useQueryList from '@/hooks/useQueryList';
 import {
   ModalForm,
   ProForm,
+  ProFormCheckbox,
   ProFormSelect,
   ProFormText,
   ProFormTreeSelect,
@@ -17,6 +18,7 @@ interface Props {
 const Create: React.FC<Props> = (props) => {
   const { open, onOpenChange, onFinish } = props;
   const { items: departments } = useQueryList('/departments');
+  const { items: roles } = useQueryList('/roles');
 
   return (
     <ModalForm
@@ -90,6 +92,15 @@ const Create: React.FC<Props> = (props) => {
           rules={[{ required: true, message: '请选择' }]}
         />
       </ProForm.Group>
+      <ProFormCheckbox.Group
+        name="roleIds"
+        layout="horizontal"
+        label="选择角色"
+        options={roles?.map((role: { name: string; id: number }) => ({
+          label: role.name,
+          value: role.id,
+        }))}
+      />
     </ModalForm>
   );
 };
