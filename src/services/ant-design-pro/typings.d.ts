@@ -13,6 +13,12 @@ declare namespace API {
     token?: string;
   };
 
+  type RefreshResult = {
+    refreshToken: string;
+    success: boolean;
+    token: string;
+  };
+
   type PageParams = {
     current?: number;
     pageSize?: number;
@@ -46,6 +52,10 @@ declare namespace API {
   type LoginParams = {
     email?: string;
     password?: string;
+  };
+
+  type RefreshParams = {
+    refreshToken?: string;
   };
 
   type ErrorResponse = {

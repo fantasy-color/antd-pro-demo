@@ -30,6 +30,18 @@ export async function login(body: API.LoginParams, options?: { [key: string]: an
   });
 }
 
+/** 刷新 token */
+export async function refreshToken(body: API.RefreshParams, options?: { [key: string]: any }) {
+  return request<API.RefreshResult>('/users/refresh', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    data: body,
+    ...(options || {}),
+  });
+}
+
 /** 此处后端没有提供注释 GET /api/notices */
 export async function getNotices(options?: { [key: string]: any }) {
   return request<API.NoticeIconList>('/api/notices', {
