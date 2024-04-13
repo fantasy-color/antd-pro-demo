@@ -55,6 +55,11 @@ export default [
         name: 'users',
         component: './auth/users',
       },
+      {
+        path: '/auth/roles',
+        name: 'roles',
+        component: './auth/roles',
+      },
     ],
   },
   {
