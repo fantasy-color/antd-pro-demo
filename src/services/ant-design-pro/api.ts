@@ -72,12 +72,11 @@ export async function updateRule(options?: { [key: string]: any }) {
   });
 }
 
-/** 新建规则 POST /api/rule */
+/** 新建员工 */
 export async function addRule(options?: { [key: string]: any }) {
-  return request<API.ListItem>('/api/rule', {
+  return request<API.ListItem>('/users', {
     method: 'POST',
     data: {
-      method: 'post',
       ...(options || {}),
     },
   });
