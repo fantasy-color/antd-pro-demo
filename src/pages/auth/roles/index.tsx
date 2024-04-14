@@ -2,7 +2,7 @@ import { addItem, queryList, removeItem, updateItem } from '@/services/ant-desig
 import { PlusOutlined } from '@ant-design/icons';
 import type { ActionType, ProColumns, ProDescriptionsItemProps } from '@ant-design/pro-components';
 import { FooterToolbar, PageContainer, ProTable } from '@ant-design/pro-components';
-import { FormattedMessage } from '@umijs/max';
+import { FormattedMessage, useAccess } from '@umijs/max';
 import { Button, Modal, message } from 'antd';
 import React, { useRef, useState } from 'react';
 import type { FormValueType } from './components/UpdateForm';
@@ -86,6 +86,8 @@ const TableList: React.FC = () => {
   const [currentRow, setCurrentRow] = useState<API.UserListItem>();
   const [selectedRowsState, setSelectedRows] = useState<API.UserListItem[]>([]);
 
+  const access = useAccess();
+
   const columns: ProColumns<API.UserListItem>[] = [
     {
       title: '名称',
@@ -139,15 +141,17 @@ const TableList: React.FC = () => {
       fixed: 'right',
       width: 50,
       render: (_, record) => [
-        <a
-          key="update"
-          onClick={() => {
-            handleUpdateModalOpen(true);
-            setCurrentRow(record);
-          }}
-        >
-          编辑
-        </a>,
+        access.canUpdateRole && (
+          <a
+            key="update"
+            onClick={() => {
+              handleUpdateModalOpen(true);
+              setCurrentRow(record);
+            }}
+          >
+            编辑
+          </a>
+        ),
       ],
     },
   ];

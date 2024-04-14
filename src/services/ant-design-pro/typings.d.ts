@@ -6,6 +6,8 @@ declare namespace API {
     id?: number;
     name?: string;
     avatar?: string;
+    isAdmin?: boolean;
+    roles?: any;
   };
 
   type menuResponse = {
