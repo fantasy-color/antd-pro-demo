@@ -6,7 +6,7 @@ import type { RunTimeLayoutConfig } from '@umijs/max';
 import { history, Link } from '@umijs/max';
 import defaultSettings from '../config/defaultSettings';
 import { errorConfig } from './requestErrorConfig';
-import { currentUser as queryCurrentUser } from '@/services/ant-design-pro/api';
+import { fetchMenuData, currentUser as queryCurrentUser } from '@/services/ant-design-pro/api';
 import React from 'react';
 const isDev = process.env.NODE_ENV === 'development';
 const loginPath = '/user/login';
@@ -60,6 +60,21 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
     },
     waterMarkProps: {
       content: initialState?.currentUser?.name,
+    },
+    menu: {
+      // 每当 initialState?.currentUser?.userid 发生修改时重新执行 request
+      params: {
+        userId: initialState?.currentUser?.id,
+      },
+      request: async () => {
+        // initialState.currentUser 中包含了所有用户信息
+        const { success, data } = await fetchMenuData();
+        if (success) {
+          return data;
+        } else {
+          return [];
+        }
+      },
     },
     footerRender: () => <Footer />,
     onPageChange: () => {

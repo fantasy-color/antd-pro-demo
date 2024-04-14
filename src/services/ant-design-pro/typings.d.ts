@@ -3,8 +3,14 @@
 
 declare namespace API {
   type CurrentUser = {
+    id?: number;
     name?: string;
     avatar?: string;
+  };
+
+  type menuResponse = {
+    success: boolean;
+    data: MenuDataItem[];
   };
 
   type LoginResult = {

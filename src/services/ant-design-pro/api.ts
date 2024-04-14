@@ -10,6 +10,13 @@ export async function currentUser(options?: { [key: string]: any }) {
   });
 }
 
+/** 获取当前的用户权限下的菜单 */
+export async function fetchMenuData() {
+  return request<API.menuResponse>('/menus/fetch', {
+    method: 'GET',
+  });
+}
+
 /** 退出登录接口 POST /api/login/outLogin */
 export async function outLogin(options?: { [key: string]: any }) {
   return request<Record<string, any>>('/api/login/outLogin', {
