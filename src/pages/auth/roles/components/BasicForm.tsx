@@ -5,12 +5,15 @@ import React, { Key, useState } from 'react';
 
 interface Props {
   form: FormInstance<any>;
+  permissions?: { id: number }[];
 }
 
 const BasicForm: React.FC<Props> = (props) => {
-  const { form } = props;
+  const { form, permissions } = props;
   const [expandedKeys, setExpandedKeys] = useState<Key[]>([]);
-  const [checkedKeys, setCheckedKeys] = useState<Key[]>([]);
+  const [checkedKeys, setCheckedKeys] = useState<Key[]>(
+    permissions?.map((permission) => `permission-${permission.id}`) ?? [],
+  );
   const [selectedKeys, setSelectedKeys] = useState<Key[]>([]);
   const [autoExpandParent, setAutoExpandParent] = useState<boolean>(true);
 

@@ -10,26 +10,29 @@ export type UpdateFormProps = {
   onSubmit: (values: FormValueType) => Promise<void>;
   updateModalOpen: boolean;
   values: {
-    roles?: { id: number }[];
+    permissions?: { id: number }[];
   } & Partial<API.ListItem>;
 };
 
 const UpdateForm: React.FC<UpdateFormProps> = (props) => {
   const { updateModalOpen, onCancel, onSubmit, values } = props;
+  const [form] = Form.useForm();
+
   return (
     <ModalForm
+      form={form}
       title="修改角色"
       width="740px"
       open={updateModalOpen}
       onOpenChange={onCancel}
       onFinish={onSubmit}
-      initialValues={{ ...values, roleIds: values.roles?.map((role) => role.id) }}
+      initialValues={{ ...values }}
       modalProps={{
         destroyOnClose: true,
         maskClosable: false,
       }}
     >
-      <BasicForm />
+      <BasicForm form={form} permissions={values.permissions} />
       <Form.Item name="id" label={false} />
     </ModalForm>
   );
